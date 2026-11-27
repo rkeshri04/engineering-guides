@@ -1,0 +1,33 @@
+{
+  "excludeTitles": ["[feature", "feature request", "feature:", "[aw]", "roadmap"],
+  "subjects": [
+    {
+      "id": "agents",
+      "name": "AI coding agents",
+      "stackoverflow": ["claude-code", "github-copilot", "cursor-ide", "openai-codex", "model-context-protocol"],
+      "github": ["repo:anthropics/claude-code -label:enhancement -author:app/github-actions", "repo:openai/codex -label:enhancement -author:app/github-actions", "repo:google-gemini/gemini-cli -label:enhancement -author:app/github-actions", "repo:cursor/cursor -label:enhancement -author:app/github-actions"],
+      "hackernews": ["Claude Code", "coding agent", "Cursor", "Copilot"]
+    },
+    {
+      "id": "git",
+      "name": "Git and GitHub",
+      "stackoverflow": ["git", "github"],
+      "github": ["repo:cli/cli -label:enhancement -author:app/github-actions", "repo:desktop/desktop -label:enhancement -author:app/github-actions"],
+      "hackernews": ["git", "GitHub"]
+    },
+    {
+      "id": "environment",
+      "name": "Dev environment",
+      "stackoverflow": ["node.js", "python-venv", "docker", "zsh", "visual-studio-code"],
+      "github": ["repo:nvm-sh/nvm -label:enhancement -author:app/github-actions", "repo:astral-sh/uv -label:enhancement -author:app/github-actions", "repo:docker/for-mac -label:enhancement -author:app/github-actions"],
+      "hackernews": ["dev environment", "Docker", "Node.js", "Python"]
+    },
+    {
+      "id": "ci",
+      "name": "CI and deployment",
+      "stackoverflow": ["github-actions", "github-pages"],
+      "github": ["repo:actions/runner -label:enhancement -author:app/github-actions", "repo:actions/checkout -label:enhancement -author:app/github-actions", "repo:actions/setup-node -label:enhancement -author:app/github-actions", "repo:actions/deploy-pages -label:enhancement -author:app/github-actions"],
+      "hackernews": ["GitHub Actions", "deployment"]
+    }
+  ]
+}

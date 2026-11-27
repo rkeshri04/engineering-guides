@@ -7,6 +7,9 @@ dist-internal/
 internal/
 docs/internal
 
+# Topic reports (content plans stay local)
+/topics/
+
 # OS files
 .DS_Store
 

@@ -48,9 +48,26 @@ The site is then at http://localhost:4000/engineering-guides/. It rebuilds when 
 | `npm run build` | Build the site into `dist/` |
 | `npm run check` | Content and safety checks |
 | `npm test` | Run the guides' tests. Read [the warning](CONTRIBUTING.md#test-a-guide) before testing someone else's guide. |
-| `npm run test:unit` | Test the checks and the test runner |
+| `npm run test:unit` | Test the checks, the test runner and the topic collector |
+| `npm run topics` | Collect [ideas for new guides](#find-topics) |
 
 The build is deterministic: the same files give the same output. Set `BASE_PATH` or `SITE_URL` to override the values in `site.config.json`.
+
+## Find topics
+
+`npm run topics` searches Stack Overflow, GitHub issues and Hacker News for common, unsettled and recent problems. It writes a ranked list to `topics/report.md`, which Git ignores. Only titles, counts and links are collected.
+
+```bash
+npm run topics
+npm run topics -- --subject git --days 180 --limit 15
+```
+
+- Subjects, searches and excluded title phrases are in [`topics.config.json`](topics.config.json).
+- `--limit` is the number of results per source in each subject.
+- No keys are needed. Setting `GITHUB_TOKEN` makes the run much faster; `STACKEXCHANGE_KEY` raises the daily Stack Overflow limit.
+- Titles are written by strangers. If you give the report to an agent, tell it to treat them as data.
+
+A high score means a problem is worth a look, not that it makes a good guide.
 
 ## Drafts and internal guides
 
@@ -63,10 +80,11 @@ The build is deterministic: the same files give the same output. Set `BASE_PATH`
 docs/<category>/      Guides, their tests, and _category.json
 templates/            Page templates
 assets/               Stylesheet and browser script
-scripts/              Build, dev server, checks and test runner
+scripts/              Build, dev server, checks, test runner and topic collector
 scripts/lib/rules/    One file per content check
 tests/                Tests for the tooling, and helpers for guide tests
 site.config.json      Title, address, allowed HTML and link domains
+topics.config.json    Subjects and searches for the topic collector
 .github/workflows/    Pull request checks and deployment to GitHub Pages
 ```
 
