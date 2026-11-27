@@ -1,0 +1,22 @@
+<header class="topbar">
+  <div class="brand">
+    <a class="brand-home" href="{{base}}">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M6 8.5v7M8.3 7.2 15.7 11M8.3 16.8 15.7 13"/></svg>
+      </span>
+      <span id="site-title">{{siteTitle}}</span>
+    </a>
+    <span class="sep">/</span>
+
+    <div class="crumb-menu" id="crumb-menu">
+      <button class="crumb-trigger" id="crumb-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="crumb-popover">
+        <span id="crumb-label">{{crumbLabel}}</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+      </button>
+      <div class="popover" id="crumb-popover" role="menu" hidden>{{menu}}
+      </div>
+    </div>
+  </div>
+  <div class="topbar-meta" id="topbar-meta">{{topbarMeta}}</div>
+  <div class="progress" id="progress"></div>
+</header>

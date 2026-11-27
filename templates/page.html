@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{{> head}}
+</head>
+<body>
+
+{{> topbar}}
+
+<div class="layout">
+  <aside>
+    <p class="toc-label">On this page</p>
+    <ul class="toc" id="toc">{{toc}}</ul>
+  </aside>
+
+  <main id="main">
+<div class="doc-head">
+  <p class="eyebrow">{{eyebrow}}</p>
+  <button class="page-copy" type="button" title="Copy page as Markdown" aria-label="Copy page as Markdown">{{copyIcon}}<span>Copy page</span></button>
+</div>
+<h1>{{heading}}</h1>
+{{lede}}
+{{meta}}
+{{body}}
+{{footer}}
+  </main>
+</div>
+
+<script type="application/json" id="page-markdown">{{markdownJson}}</script>
+
+</body>
+</html>
