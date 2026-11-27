@@ -2,7 +2,7 @@ import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { splitFrontMatter } from './front-matter.js';
 
-const INTERNAL_PATH = /(?<![A-Za-z0-9_-])internal\//i;
+export const INTERNAL_PATH = /(?<![A-Za-z0-9_-])internal\//i;
 
 /**
  * Names that identify local internal guides: distinctive file names and titles.

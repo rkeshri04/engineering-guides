@@ -61,9 +61,13 @@ function table(token) {
   return Renderer.prototype.table.call(this, token).replace('<table>', '<table class="ref">');
 }
 
-function createRenderer({ allowedHtml, resolveLink }) {
+/** True if the HTML holds anything but bare allowed tags (no attributes, no comments). */
+export function hasDisallowedHtml(text, allowedHtml) {
   const allowedTag = new RegExp(`</?(?:${allowedHtml.join('|')})\\s*/?>|<details open>`, 'gi');
+  return /<[a-z!/?]/i.test(text.replace(allowedTag, ''));
+}
 
+function createRenderer({ allowedHtml, resolveLink }) {
   const checkUrl = href => {
     const scheme = href.trim().match(/^([a-z][\w+.-]*):/i)?.[1].toLowerCase();
     if (scheme && !SAFE_SCHEMES.has(scheme)) throw new Error(`link scheme "${scheme}:" is not allowed`);
@@ -80,7 +84,7 @@ function createRenderer({ allowedHtml, resolveLink }) {
         return token.sublist ? html.replace(/^<ul/, '<ul class="sublist"') : html;
       },
       html({ text }) {
-        if (/<[a-z!/?]/i.test(text.replace(allowedTag, ''))) {
+        if (hasDisallowedHtml(text, allowedHtml)) {
           throw new Error(`raw HTML is not allowed (only ${allowedHtml.join(', ')}): ${text.trim().slice(0, 60)}`);
         }
         return text;
