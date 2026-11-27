@@ -9,6 +9,8 @@ meta:
   Platform: macOS / Linux
   Editor: VS Code
   Risk: Rewrites history
+verified: 2026-11-26
+tested_with: git 2.53
 ---
 
 ## Prevent Claude Code from adding attribution {#prevent toc="Prevent future attribution"}
@@ -19,7 +21,8 @@ Before committing new work, add an empty `attribution` object to your global Cla
 {
   "attribution": {
     "commit": "",
-    "pr": ""
+    "pr": "",
+    "sessionUrl": false
   }
 }
 ```
@@ -34,6 +37,9 @@ git config --global core.editor "code --wait"
 ## Strip author, trailers, and unwanted files across past commits {#rewrite toc="Rewrite past commits"}
 
 Make sure you are on your actual branch (not a detached `HEAD`) before running this. Replace `N` with the number of recent commits you want to rewrite, or replace `HEAD~N..HEAD` with `-- --all` to rewrite the entire repository.
+
+> [!WARNING]
+> **This also deletes the files from your folder.** Git removes `CLAUDE.md` and `docs/GUIDE.md` from your working copy as well as from the rewritten commits. Copy them somewhere else first if you want to keep them.
 
 ```bash
 FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f \
@@ -55,6 +61,12 @@ FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f \
 | `--env-filter` | Overwrites both the Author and Committer fields with your GitHub identity. |
 | `--index-filter` | Removes unwanted files across every commit in the range without causing merge conflicts. Omit this flag if you don't need to delete files. |
 | `--msg-filter` | Uses `grep -viE` (macOS-compatible) to strip `Co-Authored-By:` and `Claude-Session:` lines. |
+
+> [!NOTE]
+> **Only the range is rewritten.** Commits older than the range are untouched, so a file or trailer added earlier stays in your history.
+
+> [!NOTE]
+> **Git keeps a backup.** The old commits stay on your machine under `refs/original/`. Once you're happy, remove them with `git for-each-ref --format='%(refname)' refs/original/ | xargs -n 1 git update-ref -d`.
 
 ## Manually edit a specific commit's files or message {#edit toc="Edit a specific commit"}
 

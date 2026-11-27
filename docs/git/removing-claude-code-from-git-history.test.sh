@@ -39,6 +39,14 @@ verify() {
   assert_identity "$base" "Old Author" "old@example.com"
   git cat-file -e "$base:docs/GUIDE.md" || fail "expected docs/GUIDE.md to remain in older history"
 
+  # the removed files are gone from the working folder too
+  [ ! -e CLAUDE.md ] && [ ! -e docs/GUIDE.md ] || fail "expected CLAUDE.md and docs/GUIDE.md to be deleted from the folder"
+
+  # git keeps a backup, and the guide's inline command removes it
+  [ -n "$(git for-each-ref refs/original/)" ] || fail "expected a backup under refs/original/"
+  git for-each-ref --format='%(refname)' refs/original/ | xargs -n 1 git update-ref -d
+  assert_eq "$(git for-each-ref refs/original/)" "" "backup refs after cleanup"
+
   # the force push replaced the remote history
   assert_eq "$(git --git-dir="$ORIGIN" log --format=%H main)" "$(git log --format=%H main)" "remote history"
 
