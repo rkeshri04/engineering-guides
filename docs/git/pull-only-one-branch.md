@@ -7,8 +7,8 @@ meta:
   Applies to: Git
   Platform: macOS / Linux
   Risk: Low
+verified: 2026-11-26
 tested_with: git 2.53
-status: draft
 ---
 
 ## Just this once {#once toc="One pull"}

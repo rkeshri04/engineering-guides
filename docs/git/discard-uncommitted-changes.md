@@ -8,7 +8,7 @@ meta:
   Platform: macOS / Linux
   Risk: Deletes work
 tested_with: git 2.53
-status: draft
+verified: 2026-11-26
 ---
 
 Run these from the top folder of your repository.

@@ -8,7 +8,7 @@ meta:
   Platform: macOS / Linux
   Risk: Removes the file for others
 tested_with: git 2.53
-status: draft
+verified: 2026-11-26
 ---
 
 ## Stop tracking one file {#one toc="One file"}

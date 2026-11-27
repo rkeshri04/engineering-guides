@@ -8,7 +8,7 @@ meta:
   Platform: macOS / Linux
   Risk: Can lose work
 tested_with: git 2.53
-status: draft
+verified: 2026-11-26
 ---
 
 ## Look first {#look toc="Look first"}
