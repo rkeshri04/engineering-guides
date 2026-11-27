@@ -9,7 +9,7 @@ const ATTR_RE = /\s*\{#([\w-]+)(?:\s+toc=(?:"|&quot;)(.*?)(?:"|&quot;))?\}\s*$/;
 const SAFE_SCHEMES = new Set(['http', 'https', 'mailto']);
 /* Ids the page templates already use; a section with one would break the page. */
 const PAGE_IDS = ['site-title', 'crumb-menu', 'crumb-label', 'crumb-trigger', 'crumb-popover',
-  'topbar-meta', 'progress', 'toc', 'main', 'page-markdown'];
+  'topbar-meta', 'progress', 'toc', 'main', 'page-markdown', 'ai-trigger', 'ai-popover'];
 
 function codeBlock({ text, lang: info = '' }) {
   const { lang, attrs } = parseInfo(info);

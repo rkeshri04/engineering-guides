@@ -105,11 +105,28 @@ export function homePage(config, templates, categories) {
   });
 }
 
+/* Chat links that open with the prompt already filled in. */
+const AI_CHATS = [
+  ['Open in Claude', 'https://claude.ai/new?q='],
+  ['Open in ChatGPT', 'https://chatgpt.com/?q='],
+];
+
 /* Drafts and internal guides are not on the public site, so they have no link to share. */
-function linkButton(config, category, guide) {
+function aiMenu(config, category, guide) {
   if (guide.draft || guide.source.startsWith('internal/')) return '';
-  return `<button class="page-copy page-link" type="button" data-url="${esc(markdownUrl(config, category, guide))}" ` +
-    `title="Copy a link to this page's Markdown" aria-label="Copy link for AI">${ICON.link}<span>Copy link for AI</span></button>`;
+  const url = markdownUrl(config, category, guide);
+  const prompt = encodeURIComponent(`Read ${url} and help me with it`);
+  const item = (title, icon) => `<span class="pop-item-title">${title}</span><span class="pop-arrow">${icon}</span>`;
+  const chats = AI_CHATS.map(([title, base]) =>
+    `<a class="pop-item" role="menuitem" tabindex="-1" href="${esc(base + prompt)}" target="_blank" rel="noopener noreferrer">${item(title, ICON.external)}</a>`);
+
+  return `<div class="ai-menu">
+      <button class="page-copy ai-trigger" id="ai-trigger" type="button" title="Use this page with an AI tool" aria-label="Use with AI" aria-haspopup="menu" aria-expanded="false" aria-controls="ai-popover">${ICON.sparkle}<span>Use with AI</span>${ICON.chevron}</button>
+      <div class="popover" id="ai-popover" role="menu" hidden>
+        <button class="pop-item copy-link" type="button" role="menuitem" tabindex="-1" data-url="${esc(url)}">${item('Copy link for AI', ICON.link)}</button>
+        ${chats.join('\n        ')}
+      </div>
+    </div>`;
 }
 
 export function guidePage(config, templates, categories, category, guide, resolve) {
@@ -134,7 +151,7 @@ export function guidePage(config, templates, categories, category, guide, resolv
     topbarMeta: escText(`${guide.type} · ${plural(sections.length, 'section')}`),
     toc: toc(sections),
     eyebrow: esc(draftTag(guide, guide.eyebrow || category.name)),
-    linkButton: linkButton(config, category, guide),
+    aiMenu: aiMenu(config, category, guide),
     copyIcon: ICON.copy,
     heading: esc(guide.title),
     lede: guide.lede ? `<p class="lede">${esc(guide.lede)}</p>` : '',
