@@ -7,6 +7,9 @@ import { CALLOUT_ICON, ICON } from './icons.js';
 /* Heading attributes: `## Title {#id toc="Short label"}` */
 const ATTR_RE = /\s*\{#([\w-]+)(?:\s+toc=(?:"|&quot;)(.*?)(?:"|&quot;))?\}\s*$/;
 const SAFE_SCHEMES = new Set(['http', 'https', 'mailto']);
+/* Ids the page templates already use; a section with one would break the page. */
+const PAGE_IDS = ['site-title', 'crumb-menu', 'crumb-label', 'crumb-trigger', 'crumb-popover',
+  'topbar-meta', 'progress', 'toc', 'main', 'page-markdown'];
 
 function codeBlock({ text, lang: info = '' }) {
   const { lang, attrs } = parseInfo(info);
@@ -113,7 +116,7 @@ export function renderArticle(body, options) {
     else (groups.at(-1)?.tokens ?? intro).push(token);
   }
 
-  const ids = new Set();
+  const ids = new Set(PAGE_IDS);
   const sections = groups.map(({ heading, tokens: content }, i) => {
     let inner = render([heading]).trim().replace(/^<h2>|<\/h2>$/g, '');
     const attrs = inner.match(ATTR_RE);
@@ -121,7 +124,7 @@ export function renderArticle(body, options) {
     else if (inner.includes('{#')) throw new Error(`malformed heading attributes: ## ${heading.text}`);
 
     const id = attrs ? attrs[1] : slugify(textOf(inner));
-    if (!id || ids.has(id)) throw new Error(`missing or duplicate section id "${id}": ## ${heading.text}`);
+    if (!id || ids.has(id)) throw new Error(`section id "${id}" is empty or already used; set one with {#id}: ## ${heading.text}`);
     ids.add(id);
 
     const toc = textOf(attrs?.[2] || inner);
