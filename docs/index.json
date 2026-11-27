@@ -1,0 +1,19 @@
+{
+  "title": "Engineering Guides",
+  "categories": [
+    {
+      "id": "git",
+      "name": "Git",
+      "description": "Working with history, branches and remotes.",
+      "guides": [
+        {
+          "slug": "removing-claude-code-from-git-history",
+          "file": "git/removing-claude-code-from-git-history.md",
+          "title": "Removing Claude Code From Git History",
+          "type": "Reference",
+          "summary": "Strip attribution, rewrite authorship, force-push."
+        }
+      ]
+    }
+  ]
+}
