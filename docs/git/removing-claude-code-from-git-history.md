@@ -38,9 +38,9 @@ Make sure you are on your actual branch (not a detached `HEAD`) before running t
 FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f \
   --env-filter '
     export GIT_AUTHOR_NAME="Your Name"
-    export GIT_AUTHOR_EMAIL="your-email@example.com"
+    export GIT_AUTHOR_EMAIL="you@example.com"
     export GIT_COMMITTER_NAME="Your Name"
-    export GIT_COMMITTER_EMAIL="ryour-email@example.com"
+    export GIT_COMMITTER_EMAIL="you@example.com"
   ' \
   --index-filter 'git rm --cached --ignore-unmatch CLAUDE.md docs/GUIDE.md' \
   --msg-filter 'grep -viE "^(Co-Authored-By|Claude-Session):"' \
