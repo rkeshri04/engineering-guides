@@ -1,9 +1,6 @@
 /* Interactive extras only: every page is fully readable without this file. */
 
-const ICON = {
-  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>',
-  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>',
-};
+const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 
@@ -21,13 +18,15 @@ async function writeClipboard(text) {
   }
 }
 
-function flashCopied(btn, idleLabel) {
+/* Show "Copied", then put the button back as it was. */
+function flashCopied(btn) {
+  btn._idle ??= btn.innerHTML;
   btn.classList.add('copied');
-  btn.innerHTML = ICON.check + '<span>Copied</span>';
+  btn.innerHTML = CHECK + '<span>Copied</span>';
   clearTimeout(btn._t);
   btn._t = setTimeout(() => {
     btn.classList.remove('copied');
-    btn.innerHTML = ICON.copy + `<span>${idleLabel}</span>`;
+    btn.innerHTML = btn._idle;
   }, 1600);
 }
 
@@ -35,13 +34,14 @@ document.addEventListener('click', async e => {
   const code = e.target.closest('.copy');
   if (code) {
     await writeClipboard(code.closest('.codeblock').querySelector('pre').innerText);
-    flashCopied(code, 'Copy');
+    flashCopied(code);
     return;
   }
   const page = e.target.closest('.page-copy');
   if (page) {
-    await writeClipboard(JSON.parse($('#page-markdown').textContent));
-    flashCopied(page, 'Copy page');
+    const link = page.classList.contains('page-link');
+    await writeClipboard(link ? page.dataset.url : JSON.parse($('#page-markdown').textContent));
+    flashCopied(page);
     return;
   }
   if (e.target.closest('[data-top]')) {

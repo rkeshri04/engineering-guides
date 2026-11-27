@@ -16,7 +16,10 @@
   <main id="main">
 <div class="doc-head">
   <p class="eyebrow">{{eyebrow}}</p>
-  <button class="page-copy" type="button" title="Copy page as Markdown" aria-label="Copy page as Markdown">{{copyIcon}}<span>Copy page</span></button>
+  <div class="page-actions">
+    {{linkButton}}
+    <button class="page-copy" type="button" title="Copy page as Markdown" aria-label="Copy page as Markdown">{{copyIcon}}<span>Copy page</span></button>
+  </div>
 </div>
 <h1>{{heading}}</h1>
 {{lede}}

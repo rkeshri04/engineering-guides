@@ -1,6 +1,7 @@
 import { esc, escText, fill } from './html.js';
 import { ICON } from './icons.js';
 import { renderArticle, toCleanMarkdown } from './markdown.js';
+import { markdownUrl } from './llms.js';
 
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 const guidePath = (config, category, guide) => `${config.basePath}${category.id}/${guide.slug}/`;
@@ -104,9 +105,16 @@ export function homePage(config, templates, categories) {
   });
 }
 
-export function guidePage(config, templates, categories, category, guide, resolveLink) {
-  const { intro, sections } = renderArticle(guide.body, { allowedHtml: config.allowedHtml, resolveLink });
-  const markdown = toCleanMarkdown(guide, guide.body);
+/* Drafts and internal guides are not on the public site, so they have no link to share. */
+function linkButton(config, category, guide) {
+  if (guide.draft || guide.source.startsWith('internal/')) return '';
+  return `<button class="page-copy page-link" type="button" data-url="${esc(markdownUrl(config, category, guide))}" ` +
+    `title="Copy a link to this page's Markdown" aria-label="Copy link for AI">${ICON.link}<span>Copy link for AI</span></button>`;
+}
+
+export function guidePage(config, templates, categories, category, guide, resolve) {
+  const { intro, sections } = renderArticle(guide.body, { allowedHtml: config.allowedHtml, resolveLink: resolve.html });
+  const markdown = toCleanMarkdown(guide, guide.body, resolve.markdown);
   const path = guidePath(config, category, guide);
   const meta = Object.entries(guide.meta ?? {});
 
@@ -126,6 +134,7 @@ export function guidePage(config, templates, categories, category, guide, resolv
     topbarMeta: escText(`${guide.type} · ${plural(sections.length, 'section')}`),
     toc: toc(sections),
     eyebrow: esc(draftTag(guide, guide.eyebrow || category.name)),
+    linkButton: linkButton(config, category, guide),
     copyIcon: ICON.copy,
     heading: esc(guide.title),
     lede: guide.lede ? `<p class="lede">${esc(guide.lede)}</p>` : '',

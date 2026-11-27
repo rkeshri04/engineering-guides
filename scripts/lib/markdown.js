@@ -137,8 +137,16 @@ export function renderArticle(body, options) {
   return { intro: render(intro), sections };
 }
 
-/* Remove heading attributes outside fenced code. */
-function stripHeadingAttrs(body) {
+/* Link targets in `](target)` and `[id]: target`, skipping inline code spans. */
+function rewriteLinks(line, resolveLink) {
+  return line.split(/(`+[^`]*`+)/).map((part, i) => (i % 2 ? part : part
+    .replace(/(\]\()([^()\s]+)/g, (_, open, href) => open + resolveLink(href))
+    .replace(/^(\s*\[[^\]]+\]:\s+)(\S+)/, (_, label, href) => label + resolveLink(href))
+  )).join('');
+}
+
+/* Outside fenced code: drop heading attributes and rewrite link targets. */
+function cleanBody(body, resolveLink) {
   let fence = null;
   return body.split('\n').map(line => {
     const marker = line.match(/^\s*(?:>\s*)*(`{3,}|~{3,})/)?.[1];
@@ -148,12 +156,13 @@ function stripHeadingAttrs(body) {
       return line;
     }
     if (fence) return line;
-    return line.replace(/^(#{1,6} .*?)[ \t]*\{#[\w-]+(?:[ \t]+toc="[^"]*")?\}[ \t]*$/, '$1');
+    const bare = line.replace(/^(#{1,6} .*?)[ \t]*\{#[\w-]+(?:[ \t]+toc="[^"]*")?\}[ \t]*$/, '$1');
+    return rewriteLinks(bare, resolveLink);
   }).join('\n');
 }
 
-/** Title + lede + body, for "Copy page" and the .md output. */
-export function toCleanMarkdown({ title, lede }, body) {
-  const clean = stripHeadingAttrs(body.replace(/\r\n/g, '\n')).trim();
+/** Title + lede + body, for "Copy page", the .md output and llms-full.txt. */
+export function toCleanMarkdown({ title, lede }, body, resolveLink = href => href) {
+  const clean = cleanBody(body.replace(/\r\n/g, '\n'), resolveLink).trim();
   return [`# ${title}`, lede?.trim(), clean].filter(Boolean).join('\n\n') + '\n';
 }

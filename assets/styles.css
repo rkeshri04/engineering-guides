@@ -260,6 +260,7 @@ main.is-loading { opacity: 0; }
 .page-copy:focus-visible { outline: 2px solid var(--border-strong); outline-offset: 1px; }
 .page-copy svg { width: 14px; height: 14px; flex: none; }
 .page-copy.copied { color: var(--text); }
+.page-actions { display: flex; gap: 8px; }
 
 h1 {
   font-size: 40px;
