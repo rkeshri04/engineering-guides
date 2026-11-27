@@ -134,6 +134,9 @@ Helpers from [`tests/lib.sh`](tests/lib.sh):
 | `assert_no_trailer <range> <name>...` | Check that commit trailers are gone |
 | `assert_files_absent <range> <path>...` | Check that files are in no commit of the range |
 | `remember <key> <value>`, `recall <key>` | Pass a value from `setup()` to `verify()` |
+| `output_of <block number>` | What a block printed. Count every code block, from 1. |
+
+A command that only looks for something succeeds even when it finds nothing, so check its output with `output_of`.
 
 ## Test a guide
 

@@ -96,6 +96,8 @@ async function steps(guide, sidecar, env) {
     const file = path.join(env.TEST_ROOT, 'blocks', `${block.number}.sh`);
     await writeFile(file, `${scripts[i]}\n`);
     const result = bash([file], env);
+    // So that verify() can check what a command printed: see output_of.
+    await writeFile(path.join(env.TEST_ROOT, 'blocks', `${block.number}.out`), result.stdout);
     if (!result.ok) throw new Error(`${where(block)} failed:\n${indent(scripts[i])}\n  output:\n${indent(result.detail)}`);
   }
   for (const block of blocks.filter(b => b.json)) {

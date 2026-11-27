@@ -7,6 +7,9 @@ fail() { echo "assertion failed: $*" >&2; exit 1; }
 remember() { printf '%s' "$2" > "$TEST_ROOT/state/$1"; }
 recall() { cat "$TEST_ROOT/state/$1"; }
 
+# What block <number> printed to stdout (blocks are counted from 1, manual ones too).
+output_of() { cat "$TEST_ROOT/blocks/$1.out"; }
+
 assert_eq() { [ "$1" = "$2" ] || fail "${3:-values differ}: got '$1', expected '$2'"; }
 
 # commit <path> <subject> [trailer line]...   (appends a line to <path>)

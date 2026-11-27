@@ -44,6 +44,12 @@ test('a failing block names the block, section and output', async () => {
   assert.match(result.error, /no-such-command' is not a git command/);
 });
 
+test('verify can check what each block printed', async () => {
+  const result = await run([['bash manual="x"', 'true'], ['bash', 'echo found']],
+    'setup() { :; }\nverify() { assert_eq "$(output_of 2)" found; }');
+  assert.equal(result.error, undefined);
+});
+
 test('bad JSON, failed assertions and stale substitutions fail', async () => {
   assert.match((await run([['json check=json', '{,}']])).error, /not valid JSON/);
   assert.match((await run([], 'setup() { :; }\nverify() { assert_eq a b "letters"; }')).error, /letters: got 'a'/);
