@@ -1,6 +1,6 @@
+import { RUNNABLE } from '../blocks.js';
 import { parseInfo } from '../fence.js';
 
-const RUNNABLE = new Set(['bash', 'sh']);
 
 /* In a guide with a test file, every code block says how it is verified. */
 export default {
