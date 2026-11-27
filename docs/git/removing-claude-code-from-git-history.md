@@ -15,7 +15,7 @@ meta:
 
 Before committing new work, add an empty `attribution` object to your global Claude settings file (`~/.claude/settings.json`) or project settings (`.claude/settings.local.json`).
 
-```json title="settings.json"
+```json title="settings.json" check=json manual="Claude Code behaviour: https://code.claude.com/docs/en/settings-reference#attribution"
 {
   "attribution": {
     "commit": "",
@@ -64,7 +64,7 @@ Use this when you need to adjust a single commit — for example, `HEAD~1` for t
 
    Using `HEAD~2` opens the last two commits.
 
-   ```bash
+   ```bash manual="interactive editor"
    git rebase -i HEAD~2
    ```
 
@@ -81,7 +81,7 @@ Use this when you need to adjust a single commit — for example, `HEAD~1` for t
 
    Continue until your terminal confirms the branch was updated.
 
-   ```bash
+   ```bash manual="interactive editor"
    git rebase --continue
    ```
 
