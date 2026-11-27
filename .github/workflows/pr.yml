@@ -1,0 +1,25 @@
+name: Pull request checks
+
+# `pull_request` only: it runs a contributor's code with a read-only token and no
+# secrets. Never change this to `pull_request_target`.
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      - run: npm run test:unit
+      - run: npm test
