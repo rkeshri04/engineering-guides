@@ -13,6 +13,7 @@
     "test": "node scripts/test.js"
   },
   "dependencies": {
-    "marked": "18.2.1"
+    "marked": "18.2.1",
+    "yaml": "2.9.1"
   }
 }

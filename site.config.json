@@ -1,0 +1,9 @@
+{
+  "title": "Engineering Guides",
+  "description": "Short, problem-shaped guides for developers who work with AI coding agents.",
+  "lede": "",
+  "siteUrl": "https://rkeshri04.github.io",
+  "basePath": "/engineering-guides/",
+  "allowedHtml": ["kbd", "details", "summary"],
+  "linkAllowlist": ["github.com", "docs.github.com", "git-scm.com", "code.claude.com", "docs.anthropic.com"]
+}

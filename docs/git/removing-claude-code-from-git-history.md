@@ -1,5 +1,6 @@
 ---
 title: Removing Claude Code From Git History
+summary: Strip attribution, rewrite authorship, force-push.
 eyebrow: Part 1 · Reusable Guide
 type: Reference
 lede: A repeatable procedure for stopping automatic attribution, rewriting authorship and commit trailers across existing history, and publishing the cleaned branch.
