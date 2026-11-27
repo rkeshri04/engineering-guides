@@ -5,5 +5,5 @@
   "siteUrl": "https://rkeshri04.github.io",
   "basePath": "/engineering-guides/",
   "allowedHtml": ["kbd", "details", "summary"],
-  "linkAllowlist": ["github.com", "docs.github.com", "git-scm.com", "code.claude.com", "docs.anthropic.com"]
+  "linkAllowlist": ["github.com", "docs.github.com", "git-scm.com", "code.claude.com", "code.visualstudio.com", "docs.anthropic.com"]
 }
