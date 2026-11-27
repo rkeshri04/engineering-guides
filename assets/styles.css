@@ -295,6 +295,7 @@ h1 {
 .meta-item { font-size: 13px; }
 .meta-item dt { color: var(--text-faint); margin-bottom: 2px; }
 .meta-item dd { margin: 0; font-weight: 500; }
+.outdated { color: var(--text-faint); font-weight: 400; }
 
 /* ---------- Sections ---------- */
 section { margin-bottom: 72px; }

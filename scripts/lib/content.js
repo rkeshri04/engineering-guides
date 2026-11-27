@@ -99,7 +99,8 @@ export async function loadContent(root, { drafts = false, includeInternal = fals
 
         const draft = Boolean(source.draft) || data.status === 'draft';
         if (draft && !drafts) continue;
-        category.guides.push({ ...data, slug, body, draft, source: label, order: data.order });
+        const hasTest = files.some(f => f.name === `${slug}.test.sh`);
+        category.guides.push({ ...data, slug, body, draft, hasTest, source: label, order: data.order });
       }
     }
   }

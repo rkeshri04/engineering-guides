@@ -1,3 +1,4 @@
+import { codeBlocks } from './blocks.js';
 import { esc, escText, fill } from './html.js';
 import { ICON } from './icons.js';
 import { renderArticle, toCleanMarkdown } from './markdown.js';
@@ -111,6 +112,23 @@ const AI_CHATS = [
   ['Open in ChatGPT', 'https://chatgpt.com/?q='],
 ];
 
+/* The guide's own meta entries, then what is known about how it was verified. */
+function metaRow(guide) {
+  const items = Object.entries(guide.meta ?? {}).map(([term, value]) => [term, esc(value)]);
+  const blocks = codeBlocks(guide.body);
+  if (blocks.length) {
+    const tested = guide.hasTest ? blocks.filter(b => b.run).length : 0;
+    items.push(['Tested automatically', `${tested} of ${plural(blocks.length, 'step')}`]);
+  }
+  // The age is judged in the browser, so the same input always builds the same bytes.
+  if (guide.verified) {
+    items.push(['Last verified', `${esc(guide.verified)}<span class="outdated" data-verified="${esc(guide.verified)}" hidden> · may be outdated</span>`]);
+  }
+  if (guide.tested_with) items.push(['Tested with', esc(guide.tested_with)]);
+  if (!items.length) return '';
+  return `<dl class="meta-row">${items.map(([term, value]) => `<div class="meta-item"><dt>${esc(term)}</dt><dd>${value}</dd></div>`).join('')}</dl>`;
+}
+
 /* Drafts and internal guides are not on the public site, so they have no link to share. */
 function aiMenu(config, category, guide) {
   if (guide.draft || guide.source.startsWith('internal/')) return '';
@@ -133,7 +151,6 @@ export function guidePage(config, templates, categories, category, guide, resolv
   const { intro, sections } = renderArticle(guide.body, { allowedHtml: config.allowedHtml, resolveLink: resolve.html });
   const markdown = toCleanMarkdown(guide, guide.body, resolve.markdown);
   const path = guidePath(config, category, guide);
-  const meta = Object.entries(guide.meta ?? {});
 
   const html = page(config, templates, 'page', categories, {
     currentSlug: guide.slug,
@@ -155,9 +172,7 @@ export function guidePage(config, templates, categories, category, guide, resolv
     copyIcon: ICON.copy,
     heading: esc(guide.title),
     lede: guide.lede ? `<p class="lede">${esc(guide.lede)}</p>` : '',
-    meta: meta.length
-      ? `<dl class="meta-row">${meta.map(([k, v]) => `<div class="meta-item"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`
-      : '',
+    meta: metaRow(guide),
     body: intro + sections.map(s => s.html).join('\n'),
     footer: footer(guide.title),
     // `<` is escaped so the Markdown can never close the script element.

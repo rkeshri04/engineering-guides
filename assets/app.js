@@ -58,6 +58,12 @@ document.addEventListener('click', async e => {
   }
 });
 
+/* ---------- Verification age ---------- */
+for (const marker of document.querySelectorAll('[data-verified]')) {
+  const days = Math.floor((Date.now() - Date.parse(marker.dataset.verified)) / 86_400_000);
+  if (days > 90) marker.hidden = false;
+}
+
 /* ---------- Table of contents + scroll progress ---------- */
 const progress = $('#progress');
 const tocLinks = [...document.querySelectorAll('#toc a')];
